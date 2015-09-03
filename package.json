@@ -1,0 +1,22 @@
+{
+  "name": "detectiveScan",
+  "version": "0.1.0",
+  "description": "Uses the detective module to scan a full directory structure looking for and reporting on required modules.",
+  "main": "detectiveScan.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Royhb/detectiveScan"
+  },
+  "author": "Roy Barkas <rhb@oceantracker.net>",
+  "license": "MIT License",
+  "devDependencies": {
+	"minimist": "",
+	"colors": "",
+	"detective": "",
+    "chai": "^2.1.0",
+    "mocha": "^2.1.0"
+  },
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha test"
+  }
+}
