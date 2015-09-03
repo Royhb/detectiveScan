@@ -9,6 +9,7 @@
   },
   "author": "Roy Barkas <rhb@oceantracker.net>",
   "license": "MIT License",
+  "keywords": ["module", "detective", "devtools"],
   "devDependencies": {
 	"minimist": "",
 	"colors": "",
