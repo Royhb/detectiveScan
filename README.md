@@ -9,7 +9,7 @@ After all files have been scanned, a master list of all modules required by all 
 
 If a -j or --json argument is provided, then data is accumulated and output as JSON once the scan is complete.
 ##Examples
- ```shell
+ ```Shell
 node detectiveScan -d /myModuleDirectory    //Scans all files found beneath myModuleDirectory and outputs human readable information stdout to stdout
 node detectiveScan -d myModuleDirectory -j  //Scans all files found beneath myModuleDirectory and outputs a JSON object to stdout
 node detectiveScan                          //Scans all files below '.' and outputs human readable information stdout to stdout
