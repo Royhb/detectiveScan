@@ -1,5 +1,5 @@
 /**
- * Created by Roy on 3/09/2015.
+ * Created by Roy Barkas on 3/09/2015.
  */
 var argv        = require('minimist')(process.argv.slice(2));
 var colors      = require('colors')
@@ -8,16 +8,16 @@ var fs          = require('fs')
 var path        = require('path')
 var uf          = require('util').format
 var scanHome    = argv.D || argv.dir || '.'
-
+var jsonOut     = argv.j || argv.json || null
+var jsonData    = {files: {}}
 var masterList  = [];
+
     var NODE_PATH = process.env.NODE_PATH;  // for future use
 
-    console.log('starting scan at directory %s', scanHome)
+    if (!jsonOut) { console.log('starting scan at directory %s', scanHome) }
     processDir(scanHome)
 
     function processDir (dir) {
-        //console.log(colors.green(uf('processDir(%s)', dir)))
-
         var files = fs.readdirSync(dir)
         files.forEach(function (file) {
             if (file) {
@@ -27,13 +27,14 @@ var masterList  = [];
                     var fullPath = dir + '/' + file
                     if (fs.lstatSync(fullPath).isDirectory()) {
                         try {
-                            //if (fs.lstatSync(dir + '/' + file).isDirectory()) {
                             if (fs.lstatSync(fullPath).isDirectory()) {
                                 processDir(fullPath);
                             }
                         } catch (err) {
-                            console.log(colors.magenta(uf('Skipping %s because: ', fullPath)))
-                            console.log('    ', colors.red(err.message))
+                            if (!jsonOut) {
+                                console.log(colors.magenta(uf('Skipping %s because: ', fullPath)))
+                                console.log('    ', colors.red(err.message))
+                            }
                         }
                     }
                 }
@@ -53,12 +54,19 @@ function processFile (dir, file) {
                 }
             })
 
-            console.log(colors.yellow(uf('%s requires:', fullPath)))
-            console.log(colors.cyan(uf('    %s', requires.join(', '))))
+            if (jsonOut) {
+                jsonData.files[fullPath] = requires
+            } else {
+                console.log(colors.yellow(uf('%s requires:', fullPath)))
+                console.log(colors.cyan(uf('    %s', requires.join(', '))))
+            }
         }
     }
-
 }
 
-console.log(colors.green(masterList.join(', ')))
-console.log(process.env.NODE_PATH)
+if (jsonOut) {
+    jsonData.masterList = masterList
+    console.log(JSON.stringify(jsonData, null, 2))
+} else {
+    console.log(colors.green(masterList.join(', ')))
+}
